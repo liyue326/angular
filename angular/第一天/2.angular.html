@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="zfModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-controller="firstCtrl">
+        {{a}}
+        <input type="text" ng-model="a">
+        <!--ng-model写错-->
+    </div>
+    <div ng-controller="secCtrl">
+        {{a}}
+
+    </div>
+    <!--控制器可以嵌套 html部分嵌套 父控制器可以让子控制器继承-->
+    <!--ng-app="zfModule" 告诉angular-->
+    <script src="../../node_modules/angular/angular.js"></script>
+    <script>
+        //angular 一切从模块开始
+        //param1 模块的名字
+        //param2 依赖的模块 数组形式(没有的话则是空数组形式)
+        //param3 配置
+        var app=angular.module('zfModule',[]);//创建模块，可以返回一个当前模块
+        //MVVM angular中通过控制器进行调度数据
+        //param1控制器名字
+        //param2回调函数 拥有控制器后 会送$scope
+        app.controller('firstCtrl',function($scope){
+            //$scope作用域 给当前控制器权限 scope就是viewModal
+            $scope.a="zf"
+        });
+        app.controller('secCtrl',function($scope){
+            //$scope作用域 给当前控制器权限 不要操作dom 在directive link中操作dom
+            $scope.a="zf2"
+        });
+    </script>
+</body>
+</html>

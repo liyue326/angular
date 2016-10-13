@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title>angular</title>
+    <link rel="stylesheet" href="../../node_modules/angular/angular-csp.css">
+</head>
+<div>
+<input type='text' ng-model="name">
+    <input type='text' ng-model="age">
+<!--{{name}}-->
+<!--<div ng-bind="name"></div>-->
+<!--<div ng-bind-template="{{name}}{{age}}"></div>-->
+<div ng-cloak>
+    {{name}}
+    <div>{{age}}
+    <div>{{name}}</div>
+    </div>
+</div>
+</div>
+<!--写到属性上面 页面不会显示 所以刷新时候不会闪-->
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    console.log(angular);//对象提供了angular中很多方法
+    //启动angular 需要告诉当前页面从哪里启动，一般会选择最外层标签为angular初始化位置
+    //以ng开头的都是angular自带的指令
+    //ng-app指定angular在什么位置启动，并且送一个$rootScope 跟作用域->window
+    //ng-app只能写一个
+    //双向数据是要将视图和模型进行绑定 通过ng-modal去绑定我们的输入模型，如果数据不存在就是生命，在当前作用域下声明
+    //表达式：
+    //1.然后{{}}取数据  绑定数据 把数据绑定到html上 {{1+2+3}}表达式可以用来简单运算和三元运算{{name?name:"不存在"}}
+    //2.ng-bind 防止闪烁 和{{}}用法一致
+    //3.ng-bind-template 绑定模板ng-bind-template="{{}} {{}}"
+    //4.ng-cloak 是解决闪烁问题最好方法，原理就是选择带有ng-cloak这个标签让其隐藏，等angular加载完，在把ng-cloak属性移除掉
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div ng-controller="firstCtrl">
+        {{name}}
+    </div>
+    <div ng-controller="secCtrl">
+        {{name}}
+    </div>
+    <div ng-controller="thitCtrl">
+        {{name}}
+    </div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    //将共有的属性例如$rootScope可以提取出来
+    app.run(function($rootScope){
+        $rootScope.name="zf";
+    });
+    app.controller('firstCtrl',function($scope,$rootScope){
+        $scope.name="zf1";
+        $rootScope.name="zf";//不要房到这里
+    });
+    app.controller('secCtrl',['$scope',function(a){
+        a.name="zf2" ;//用数组映射方式防止被压缩
+    }]);
+    app.controller('thitCtrl',function($scope){
+        $scope.name="zf3"
+    });
+
+    //用数组方式进行映射 防止压缩(字符串不会被压缩 变量会被压缩)
+</script>
+</body>
+</html>

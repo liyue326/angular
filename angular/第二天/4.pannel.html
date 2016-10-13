@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+    <my-panel title="biaoaxa">这是文章的内容</my-panel>
+    <my-panel title="sdsa">这是文章的内容</my-panel>
+
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    app.directive('myPanel',function(){
+        return{
+            //使用连接方式引入进来
+            templateUrl:'tmpl/panel.html',
+            transclude:true,//将指令中的内容先保存起来，他会寻找带有ng-transclude的标签将内容插入进去，并且ng-transclude会产生作用域
+            link:function(scope,element,attrs){
+                //在当前作用域下声明title变量 存储attr值
+                //scope.title=attrs['title'];
+                //创建独立作用域 将数据保存在自己作用域
+                //scope:true还能继承
+                //scope:{}  这样写会断绝所有继承关系
+                scope.say=function(who){
+                    alert(who);
+                }
+
+            },
+            scope:{
+                title:'@title'
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

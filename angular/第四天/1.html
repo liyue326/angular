@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div ng-controller="ctrl"></div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    //服务5种 封装共有方法 并且服务是单利的
+//    app.config(function(myProvider){
+//        myProvider.config='zfpx';
+//        console.log(1);
+//    });
+//    app.provider('my',function(){
+//        this.config='hello';
+//        console.log(2);
+//        var that=this;
+//        this.$get=function(){
+//            return{
+//                name:1+that.config
+//            }
+//        }
+//    });
+    //factory 直接传入get方法
+//    app.factory('my',function(){
+//        this.config='hel';//增加属性 这个属性无法配置
+//       return{
+//           name:1+this.config
+//       }
+//    });
+    //service 返回的是构造函数
+//    app.service('my',function(){
+//        this.obj=1;
+//        this.name=2;
+//    });
+    //value
+    app.value('my',{
+        name:1
+    });
+    //constant
+    app.constant('my',{
+        name:1
+    });
+    //decorator 装饰 在config函数中通过$provider.decorator进行装饰
+
+    app.controller('ctrl',function ($scope,my) {
+        //my相当于实例化了provider的函数 并且调用了$get方法
+        console.log(my);
+    });
+    //依赖注入 注入进来就可以使用了
+</script>
+</body>
+</html>

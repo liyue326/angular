@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<table class="table table-bordered" ng-controller="ctrl">
+    <tr>
+        <th>全选<input type="checkbox"></th>
+        <th>商品</th>
+        <th>单价</th>
+        <th>数量</th>
+        <th>小计</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="com in computer">
+        <td><input type="checkbox" ng-model="flag"> </td>
+        <td>{{com.productInfo}}</td>
+        <td>{{com.price}}</td>
+        <td><button ng-click="add(com)">+</button><input type="text" ng-model="com.count"><button ng-click="minus(com)">-</button></td>
+        <td></td>
+        <td><button class="btn btn-danger" ng-click="del(com)">删除</button></td>
+    </tr>
+
+</table>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('ctrl',['$scope',function ($scope) {
+        $scope.computer=[
+            {productInfo:'华硕',price:3400,count:2},
+            {productInfo:'联想',price:3000,count:20}
+        ];
+        $scope.add=function(com){
+            com.count++;
+        };
+        $scope.minus=function(com){
+            com.count--<=0?(com.count=0):com.count--;
+        };
+        $scope.del=function(com){
+            $scope.computer=$scope.computer.filter(function(item){
+                return item!=com;
+            })
+        };
+        $scope.flag=true;
+    }]);
+</script>
+</body>
+</html>

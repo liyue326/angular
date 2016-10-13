@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-controller="myCtrl">
+<!--数字过滤器-->
+{{a|number}}
+<!--大小写转换-->
+{{'aBxsDDf'|lowercase}}
+<!--年月日-->
+{{'234354657543'|date:'yyyy:MM:dd hh:MM:ss'}}
+<!--json过滤器-->
+
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    app.controller('myCtrl',['$scope',function($scope){
+        $scope.a=1000000000;
+    }]);
+    //过滤器 在控制器中最好不要改变数据
+</script>
+</body>
+</html>

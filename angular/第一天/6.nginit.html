@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body >
+<div ng-controller="ctrl">
+    <ul>
+        <li ng-repeat="arr in arrs" ng-init="parent=$index">
+            <!--{{$index}}{{arr.name}} {{arr.type}}-->
+            {{arr}}
+            <ul>
+                <li ng-repeat="(a,b) in arr.type track by $index">
+                  {{parent}}  {{a}} {{b}}
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('ctrl',function ($scope) {
+        $scope.arrs=[{name:'iphone',type:[6,7,8]},{name:'mi',type:[3,4,5]},{name:"honor"}]
+    });
+</script>
+</body>
+</html>

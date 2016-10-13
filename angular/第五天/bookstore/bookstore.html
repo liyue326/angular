@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body ng-controller="carCtrl">
+欢迎
+<input type="text" ng-model="query" ng-model-options="{debounce:1000}"><br>
+数的名字{{book.name}}<br>
+根据id查询 {{book.id}}
+<table class="table table-bordered">
+    <tr>
+        <td>名字</td>
+        <td>价格</td>
+        <td>数量</td>
+        <td>小计</td>
+        <td colspan="2">操作</td>
+    </tr>
+    <tr ng-repeat="book in books track by $index">
+        <td>{{book.name}}</td>
+        <td>{{book.price}}</td>
+        <td>{{book.count}}</td>
+        <td>{{book.count*book.price}}</td>
+        <td><button>删除</button></td>
+        <td><button>修改</button></td>
+
+    </tr>
+</table>
+<script src="../../../node_modules/angular/angular.js"></script>
+<script src="../../../node_modules/angular-resource/angular-resource.js"></script>
+<script src="../../../node_modules/jquery/dist/jquery.js"></script>
+<script src="../../../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script>
+    var app=angular.module('appModule',['ngResource']);
+    app.factory('book',function($resource){
+        return $resource('/book/:id',null,{
+            update:{
+                method:'PUT'
+            }
+        })
+    })
+    app.controller('carCtrl',function($scope,$http,book){
+        $scope.books=book.query();//默认发送get请求
+        //$scope.books=book.get({id:1});
+//        $http.get('/book').success(function(data){
+//           $scope.books=data
+//        })
+        $scope.book={};
+        $scope.$watch('query',function(newVal,oldVal){
+            if(newVal){
+                $scope.book=book.get({id:newVal})
+            }
+
+        });
+        $scope.del=function(b){
+            book.delete(b).$promise.then(function(){
+                $scope.book.query();
+            });
+
+        }
+    })
+
+</script>
+</body>
+</html>

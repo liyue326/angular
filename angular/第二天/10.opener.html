@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .title{width:100px;line-height:30px;}
+        .content{width:100px;height:100px;background: blue;}
+    </style>
+</head>
+<body>
+<group>
+<open head="第一组">open打开</open>
+<open head="第er组">open打开</open>
+<open head="第san组">open打开</open>
+<open head="第si组">open打开</open>
+</group>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    app.directive('group',function(){
+        return{
+            controller:function($scope){
+                var childList=[];
+                this.add=function(scope){
+                    childList.push(scope)
+                }
+                this.close=function(scope){
+                    //当前点击的儿子告诉是哪一个
+                    childList.forEach(function(item){
+                        if(item!=scope){
+                            item.flag=false;
+                        }
+                    })
+                }
+
+            }
+
+        }
+
+    });
+    app.directive('open',function(){
+        return{
+            reruire:'?group',
+            transclude:true,
+            templateUrl:'tmpl/open.html',
+            scope:{
+                head:'@'
+            },
+            link:function(scope,element,attrs,groupCtrl){
+                //将自己的家给父亲管理
+
+               groupCtrl.add(scope);
+               scope.flag=false;
+               scope.show=function(){
+                   scope.flag=!scope.flag;
+                   groupCtrl.close(scope)
+               }
+            }
+        }
+    });
+
+    //1.增加标示 标示这几个open是一组的 增加group属性
+    //2.这几个open标签将自己的作用域交给父级管理
+    //3.当点击自己时候告诉父亲把其他人的关掉
+</script>
+</body>
+</html>

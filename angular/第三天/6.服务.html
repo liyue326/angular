@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div ng-controller="ctrl"></div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.controller('ctrl',function ($scope,$sce,$timeout,$http) {
+        $http.get('./hello.json').success(function(data){
+            console.log(data);
+        })
+    });
+</script>
+</body>
+</html>

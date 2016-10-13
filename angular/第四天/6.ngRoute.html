@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<ul class="nav nav-tabs">
+    <li ><a href="#/">首页</a></li>
+    <li><a href="#/user">用户页面</a></li>
+    <li><a href="#/list">信息页面</a></li>
+    <li><a href="#/settings">设置页面</a></li>
+</ul>
+<div ng-view></div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script src="../../node_modules/angular-route/angular-route.js"></script>
+<script>
+    var app = angular.module('appModule',['ngRoute']);
+    app.config(function($routeProvider){
+        $routeProvider.when('/',{
+            templateUrl:'tmpl/index.html',
+            controller:'indexCtrl'
+
+        }).when('/user',{
+            templateUrl:'tmpl/user.html',
+            controller:'userCtrl'
+        }).when('/list/:aa',{//aa表示匹配/list/1/2  {aa:1,bb:2}
+            templateUrl:'tmpl/list.html',
+            controller:'listCtrl'
+
+        }).when('/settings',{
+            templateUrl:'tmpl/settings.html',
+            controller:'settingsCtrl'
+        }).otherwise('/')
+
+    });
+    //controller service filter directive main
+    app.filter('crease',function(){
+        return function(input,start){
+            return input+start;
+        }
+    });
+    app.factory('person',function(){
+        var users=[
+
+                {id:1,name:'张三',age:30},
+                {id:2,name:'张',age:3},
+                {id:3,name:'三',age:0}
+
+        ];
+        return {
+            query:function(){
+                return users;
+            }
+        }
+    });
+
+
+
+    app.controller('indexCtrl',function ($scope) {
+        $scope.who='zfpx'
+    });
+    app.controller('userCtrl',function ($scope,person) {
+        $scope.users=person.query();
+    });
+    app.controller('listCtrl',function ($scope,$routeParams) {
+        $routeParams
+        $scope.who='zfpx2'
+    });
+    app.controller('settingsCtrl',function ($scope) {
+        $scope.who='zfpx3'
+    });
+</script>
+</body>
+</html>

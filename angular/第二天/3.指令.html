@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<!--一般使用元素型和属性型-->
+<my-directive></my-directive>
+<div my-directive></div>
+
+<div class="my-directive"></div>
+<!-- directive:my-directive -->
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    //指令可以复用
+    app.directive('myDirective',function(){
+        return{
+            //默认限定类型为 element attribute
+            //class comment
+
+            //封装 将公用逻辑和共有的html
+            restrict:'ECMA',//限制作用范围
+            replace:true,//替换外面的标签，设置为无 此时template只能有一个根元素
+            template:'<div>hello</div>'
+
+        }
+    })
+</script>
+</body>
+</html>

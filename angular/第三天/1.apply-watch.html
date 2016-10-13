@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="myCtrl">
+    <input type="text" ng-model="name">
+    {{name}}
+</div>
+
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    app.controller('myCtrl',function($scope){
+        console.log($scope);
+        $scope.$watch('name',function(newvAL,oldval){
+            console.log(newVal,oldVal);
+        });
+        setTimeout(function(){
+            $scope.name=200;
+            $scope.apply();
+        },1000)
+    });
+    //ng-model的实现原理就是监控数据的变化，脏值检查
+    //ng-change(事件触发) 与watch(实时监控) 区别
+    //apply 通知视图
+</script>
+</body>
+</html>

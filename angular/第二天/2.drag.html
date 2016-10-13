@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            width:100px;
+            height:100px;
+            position: absolute;
+            top:0;
+            left:0;
+            background:red;
+            /*要加定位 不然不动*/
+        }
+    </style>
+</head>
+<body>
+<div drag></div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    //指令可以复用
+    app.directive('drag',function(){
+        return{
+            link:function(scope,element,attrs){
+                element.on('mousedown',function(e){
+                    //记录当前的鼠标距离盒子边缘的距离
+                    //鼠标距离浏览器的距离-当前盒子的偏移量=鼠标距离盒子的边缘
+                    var disx=e.pageX-this.offsetLeft;
+                    var disy=e.pageY-this.offsetTop;
+                    angular.element(document).on('mousemove',function(e){
+                        //记录当前鼠标距离浏览器边缘的位置-鼠标距离盒子边缘=盒子偏移量 设置值时必须加单位
+                        element.css({
+                            top: (e.pageY-disy)+'px',
+                            left: (e.pageX-disx)+'px'
+                        })
+                    });
+                    angular.element(document).on('mouseup',function(e){
+                        angular.element(document).off();
+                    });
+                    e.preventDefault();
+                })
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

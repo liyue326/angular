@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<input type="text" zf-model="age">
+{{age}}
+<input type="text" zf-model="name">
+{{name}}
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.directive('zfModel',function(){
+        return{
+            link:function(scope,element,attrs){
+                element.on('input',function(){
+                    console.log(this.value);
+                    scope[attrs['zfModel']]=this.value;
+                    scope.$apply();
+                });
+                scope.$watch(attrs,zfModel,function(newVal,oldVal){
+                   element.val(newVal);
+                });
+            }
+        }
+    })
+    //脏值检查至少执行2次 因为当别人数据发生变化时 可能在其回调函数内影响了其他人的变化
+    //此时代码执行完之后刷新了更改的值 没有管回调函数是否有更改，再来一轮检查，直到没有任何一个值发生变化为止
+</script>
+</body>
+</html>

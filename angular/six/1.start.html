@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+
+</head>
+<body>
+<ul>
+    <li><a ui-sref="index">首页</a></li>
+    <li><a ui-sref="user">用户</a> </li>
+    <li><a ui-sref="list">列表</a> </li>
+
+</ul>
+<div ui-view></div>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="lib/jquery/dist/jquery.js"></script>
+<script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script>
+    //ngRouter $routeProvider
+    //uiRouter $stateProvider 是uirouter自带堵得服务 我们想要使用这个服务 可以配置
+    var app = angular.module('appModule',['ui.rounter']);
+    app.config(function($stateProvider,$urlRouterProvider){
+        $stateProvider.state('aa',{
+            url:'/index',  //当前名字对应的路由
+            template:'<div>首页</div>',
+            controller:function($scope){
+                $scope.list='zfpx'
+            }
+        }).state('user',{
+            url:'/user',  //当前名字对应的路由
+            template:'<div>首页1</div>',
+            controller:function($scope){
+                $scope.list='zfpx'
+            }
+        }).state('list',{
+            url:'/list',  //当前名字对应的路由
+            template:'<div>首页11</div>',
+            controller:function($scope){
+                $scope.list='zfpx'
+            }
+        });
+        $urlRouterProvider.otherwise('index');
+    })
+    app.controller('ctrl',function ($scope) {
+
+    });
+</script>
+</body>
+</html>

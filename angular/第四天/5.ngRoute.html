@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div ng-view></div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script src="../../node_modules/angular-route/angular-route.js"></script>
+<script>
+    //需要安装ng-toute npm install angular-route
+    //要使用ngRoute 必须要将ngRoute依赖进来
+    var app = angular.module('appModule',['ngRoute']);
+   app.config(function($routeProvider){
+       $routeProvider.when('/',{//访问不同的路由显示不同内容
+           template:'hello'
+       }).when('./user',{
+           template:'world'
+       }).otherwise('/')
+   })
+</script>
+</body>
+</html>

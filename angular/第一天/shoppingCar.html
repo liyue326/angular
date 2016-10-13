@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>car</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<table class="table table-responsive" ng-controller="carCtrl">
+    <tr>
+        <th><input type="checkbox" ng-model="flag" ng-change="checkAll()">全选</th>
+        <th>商品</th>
+        <th>单加</th>
+        <th>数量</th>
+        <th>小计</th>
+        <th>操作</th>
+    </tr>
+    <tr ng-repeat="(ke,com) in computer">
+        <td><input type="checkbox" ng-model="com.select" ng-change="checkOne()"></td>
+        <td>{{com.productInfo}}</td>
+        <td>{{com.price}}</td>
+        <td>
+            <button ng-click="minus(com)" ng-disabled="curCom.count==1">-</button>
+            <input type="text" ng-model="com.count">
+            <button ng-click="add(com)">+</button>
+        </td>
+        <td>{{com.price*com.count}}</td>
+        <td><button class="btn btn-primary" ng-click="remove(com)">删除</button></td>
+    </tr>
+    <tr>
+        <td>总价{{total()}}</td>
+        <td><button ng-click="removeSelect()">删除选中商品</button>
+        选中{{all()}}个商品
+        <!--折扣<select>-->
+                <!--<option ng-value="a" ng-repeat="a in selectVal">{{a}}</option>-->
+            <!--</select>-->
+        折扣<select ng-model="discount" ng-options="val as val for val in selectVal" ng-change="changeDiscount()"></select>
+            折后价{{discountTotal}}
+        </td>
+
+        <!--select提供一个语法  as for in
+        把什么值作为value 什么值作为用户可见 拿当前的那一项在整个数组里遍历
+        val as val  for val in selectVal
+        -->
+    </tr>
+</table>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app=angular.module('appModule',[]);
+    app.controller('carCtrl',['$scope',function($scope){
+        $scope.computer=[
+            {select:true,productInfo:'华硕',price:3400,count:2},
+            {select:false,productInfo:'华硕2',price:4300,count:20}
+        ];
+        $scope.flag=false;
+        $scope.discount=8;
+        //全选全不选
+        $scope.checkAll=function(curCom){
+            $scope.computer.forEach(function(item){
+                item.select=$scope.flag;
+            });
+
+        };
+        $scope.checkOne=function(){
+            var flag=true;//默然都选中
+            $scope.computer.forEach(function(item){
+                if(!item.select){//如果有一个没选中，则为false
+                    flag=false;
+                }
+            });
+            $scope.flag=flag;
+        };
+        $scope.minus=function(curCom){
+            curCom.count<=0?( curCom.count=0):curCom.count--
+
+        };
+        $scope.add=function(curCom){
+            curCom.count++
+        };
+        $scope.remove=function(curCom){
+            //可以使用数组中filter方法 true是留下的 false是去掉的
+            $scope.computer=$scope.computer.filter(function(item){
+                return item!=curCom;//匹配到了就返回false 删除
+            })
+        };
+        $scope.total=function(){
+            //计算总价 小计的和
+            var sum=0;
+            $scope.computer.forEach(function(item){
+                sum+=item.count*item.price;
+            });
+            return sum;
+        };
+    //脏值检查 digest 至少查2次 双向绑定
+        //删除选中的商品
+        $scope.removeSelect=function(){
+            $scope.computer.forEach(function(item){
+                if(item.select){
+                    $scope.remove(item);
+                }
+            })
+        };
+        //选中多少个商品
+
+        $scope.all=function(){
+            $scope.count=0;
+            $scope.computer.forEach(function(item){
+                if(item.select){
+                    $scope.count++;
+                }
+            });
+            return $scope.count;
+        };
+        //折扣
+        $scope.selectVal=[1,2,3,4,5,6,7,8,9,10];
+        $scope.discount=10;
+        $scope.changeDiscount=function(){
+            //折后价
+            $scope.discountTotal=$scope.total()*$scope.discount/10
+        };
+
+    }]);
+// 我们想添加事件需要在原有事件前添加ng ng-click
+</script>
+</body>
+</html>

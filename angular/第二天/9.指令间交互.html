@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<girl>
+    <love-money></love-money>
+</girl>
+<girl love-money  love-cry>xxx</girl>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    //当前的品质都是依赖于girl指令
+    var app=angular.module('appModule',[]);
+    app.directive('girl',function(){
+        return{
+            controller:function(){
+                //为了让别人依赖于他，当前girl指令需要一个控制器 link的第四个参数
+                var arr=[];
+                this.add=function(kinds){
+                    $scope.arr.push(kinds);
+                }
+            },
+            link:function(scope,element,attrs){
+                element.on('click',function(){
+                    alert(scope.arr);
+                })
+            }
+        }
+    });
+    app.directive('loveMoney',function(){
+        return{
+            //当前指令需要girl
+            require:'girl',//需要当前指令上的girl
+            //require:'^girl' 往父级找
+            link:function(scope,element,attrs,girlCtrl){
+                girlCtrl.add('loveMoney');
+            }
+        }
+    });
+    app.directive('loveCry',function(){
+        return{
+            require:'girl',
+            link:function(scope,element,attrs,girlCtrl){
+                girlCtrl.add('loveCry');
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

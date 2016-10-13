@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义</title>
+</head>
+<body>
+<input type="text" >
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    //指令特点
+    // 1.不要使用ng开头
+    // 2.指令不依赖控制器的，可以单独使用
+    // 3.指令也是通过模块进行创建的
+    // 4.指令名字 margin-top marginTop 如果带-转化成驼峰形式
+
+    //指令分类 1装饰性指令 2 组件式指令
+    var app=angular.module('appModule',[]);
+    //通过模块进行创建指令
+    //param1 指令的名字
+    //param2 函数    默认返回对象
+    app.directive('hello',function(){
+        return{
+            //叫做模板 就是把响应的指令转换成一些内容
+            template:"<div><span>你好</span></div>",
+            //scope 当前作用域
+            //element 当前元素对象
+            //指令上的属性
+            //链接函数 链接scope和视图的
+            link:function(scope,element,atrs){
+                console.log(scope);
+                console.log(element);
+                console.log(atrs);
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

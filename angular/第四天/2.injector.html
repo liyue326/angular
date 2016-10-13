@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div ng-controller="ctrl"></div>
+<script src="../../node_modules/angular/angular.js"></script>
+<script>
+    var app = angular.module('appModule',[]);
+    app.provider('my',function(){
+        this.$get=function(){
+            return {name:1}
+        }
+    });
+    app.controller('ctrl',function(){
+        //手动调用服务...
+        angular.element(document).injector().invoke(function(my){
+            console.log(my);
+        })
+    })
+</script>
+</body>
+</html>
